@@ -1,4 +1,4 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
 const express = require("express");
 const socketIO = require("socket.io");
 const qrcode = require("qrcode");
@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload");
 const port = process.env.PORT || 5000;
 const tools = require("./logger.js");
 require("dotenv").config();
+const axios = require("axios");
 
 const app = express();
 const server = http.createServer(app);
@@ -58,9 +59,12 @@ app.get("/", (req, res) => {
   });
 });
 app.post("/msg_media", async (req, res) => {
-  const number = req.body.nomor;
+  var number = req.body.nomor;
   const caption = req.body.pesan;
   const fileUrl = req.body.file;
+  if (!number.endsWith("@c.us")) {
+    number += "@c.us";
+  }
   let mimetype;
   const attachment = await axios
     .get(fileUrl, {
@@ -80,6 +84,7 @@ app.post("/msg_media", async (req, res) => {
       });
     })
     .catch((err) => {
+      console.log(err);
       return res.status(500).json({
         status: false,
         response: err,
