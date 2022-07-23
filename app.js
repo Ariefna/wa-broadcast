@@ -57,6 +57,35 @@ app.get("/", (req, res) => {
     root: __dirname,
   });
 });
+app.post("/msg_media", async (req, res) => {
+  const number = req.body.nomor;
+  const caption = req.body.pesan;
+  const fileUrl = req.body.file;
+  let mimetype;
+  const attachment = await axios
+    .get(fileUrl, {
+      responseType: "arraybuffer",
+    })
+    .then((response) => {
+      mimetype = response.headers["content-type"];
+      return response.data.toString("base64");
+    });
+  const media = new MessageMedia(mimetype, attachment, "Media");
+  client
+    .sendMessage(number, media, { caption: caption })
+    .then((response) => {
+      return res.status(200).json({
+        status: true,
+        response: response,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: false,
+        response: err,
+      });
+    });
+});
 app.post("/msg", async (req, res) => {
   const isRegisteredNumber = await checkRegisteredNumber(req.body.nomor);
   if (!isRegisteredNumber) {
@@ -79,8 +108,8 @@ app.post("/msg", async (req, res) => {
       label: "CLASS2",
     }
   );
-  client.sendMessage(chatId, req.body.pesan);
   delay();
+  client.sendMessage(chatId, req.body.pesan);
   return res.json(getStandardResponse(true, "Berhasil", []));
 });
 
