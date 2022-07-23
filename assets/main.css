@@ -411,6 +411,9 @@ td[data-status="failed"] {
   content: " .";
   animation: dots 1s steps(5, end) infinite;
 }
+#qrcode {
+  width: 100%;
+}
 
 @keyframes dots {
   0%,
