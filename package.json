@@ -2,6 +2,10 @@
   "name": "wa-baru",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "16.14.2",
+    "npm": "8.5.0"
+  },
   "scripts": {
     "start": "node app.js"
   },
@@ -18,9 +22,5 @@
     "whatsapp-web.js": "latest",
     "winston": "^3.8.1",
     "winston-daily-rotate-file": "^4.7.1"
-  },
-  "engines": {
-    "node": ">= 16.14.2",
-    "npm": ">= 8.5.0"
   }
 }
