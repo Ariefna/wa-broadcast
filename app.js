@@ -5,7 +5,7 @@ const qrcode = require("qrcode");
 const http = require("http");
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 const tools = require("./logger.js");
 require("dotenv").config();
 
